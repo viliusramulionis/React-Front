@@ -33,6 +33,12 @@ const Router = () => {
         }
     }, [])
 
+    const logoutUser = () => {
+        setUser({
+            loggedIn: false
+        })
+    }
+
     return (
         <BrowserRouter>
             <Routes>
@@ -52,10 +58,10 @@ const Router = () => {
                 )}
                 {user.loggedIn && (
                     <>
-                        <Route path="/logout" element={<Logout />} /> 
                         <Route path="/orders" element={<Orders />} /> 
                     </>
                 )}
+                <Route path="/logout" element={<Logout logoutUser={logoutUser} />} /> 
             </Routes>
         </BrowserRouter>
     )

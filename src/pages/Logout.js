@@ -2,7 +2,8 @@ import { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
 
-const Logout = () => {
+const Logout = (props) => {
+    const { logoutUser } = props
     const navigate = useNavigate()
 
     useEffect(() => {
@@ -14,14 +15,16 @@ const Logout = () => {
             .then(() => {
                 localStorage.removeItem('token')
                 localStorage.removeItem('user_role')
+                logoutUser()
                 navigate('/')
             })
             .catch(err => {
                 console.log(err)
+                logoutUser()
                 navigate('/')
             })
         }
-    }, [navigate])
+    }, [])
 }
 
 export default Logout;
