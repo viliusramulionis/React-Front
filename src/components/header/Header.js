@@ -31,14 +31,24 @@ const Header = () => {
                                 <li><Link to="/register">Registruotis</Link></li>
                             </>
                         )}
-                        {user.loggedIn && user.role === '0' && (
+                        {user.loggedIn && (
                             <>
-                                <li><Link to="/admin/orders">Užsakymai</Link></li>
-                                <li><Link to="/admin/hotels">Viešbučiai</Link></li>
-                                <li><Link to="/admin/countries">Šalys</Link></li>
+                                <li><Link to="/orders">Jūsų užsakymai</Link></li>
+                                <li><Link to="/logout">Atsijungti</Link></li>
                             </>
                         )}
-                        {user.loggedIn && <li><Link to="/logout">Atsijungti</Link></li>}
+                        {user.loggedIn && user.role === '0' && (
+                            <>
+                                <li>
+                                    <Link to="/admin/orders">Administratorius</Link>
+                                    <ul>
+                                        <li><Link to="/admin/orders">Užsakymai</Link></li>
+                                        <li><Link to="/admin/hotels">Viešbučiai</Link></li>
+                                        <li><Link to="/admin/countries">Šalys</Link></li>
+                                    </ul>
+                                </li>
+                            </>
+                        )}
                     </ul>
                 </nav>
             </div>

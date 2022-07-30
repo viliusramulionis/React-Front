@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
 import Header from '../components/header/Header'
+import Message from '../components/message/Message'
 
 const Register = () => {
     const [registerForm, setRegisterForm] = useState({
@@ -9,7 +10,10 @@ const Register = () => {
         email: '',
         password: ''
     })
-    const [error, setError] = useState('')
+    const [message, setMessage] = useState({
+        text: '',
+        status: ''
+    })
     const [loading, setLoading] = useState(true)
 
     const navigate = useNavigate()
@@ -29,7 +33,7 @@ const Register = () => {
     const handleFormSubmit = (e) => {
         e.preventDefault()
         setLoading(true)
-        axios.post('http://localhost:8000/api/register', registerForm)
+        axios.post('/api/register', registerForm)
         .then(resp => {
             if(resp.status === 200) {
                 localStorage.setItem('token', resp.data.message.token)
@@ -41,9 +45,9 @@ const Register = () => {
         .catch(err => {
             setLoading(false)
             if(err.response.data)
-                setError(err.response.data.message)
+                setMessage({text: err.response.data.message, status: 'danger'})
             else 
-                setError('Serveris miręs')
+                setMessage({text: 'Serveris miręs', status: 'danger'})
         })
     }
  
@@ -54,9 +58,7 @@ const Register = () => {
             <main className="text-center registerForm">
                 <div className="form-signin w-100 m-auto">
                     <h1 className="h3 mb-3 fw-normal">Registracija</h1>
-                    {error && (
-                        <div className="alert alert-danger">{error}</div>
-                    )}
+                    <Message value={message} />
                     <form onSubmit={handleFormSubmit}>
                         <div className="form-floating">
                             <input type="text" className="form-control" name="name" onChange={handleFormChange} placeholder="Jūsų vardas" value={registerForm.name} />

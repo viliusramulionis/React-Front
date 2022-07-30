@@ -8,7 +8,7 @@ const Logout = () => {
     useEffect(() => {
         const token = localStorage.getItem('token')
         if(token) {
-            axios.post('http://localhost:8000/api/logout', {}, {
+            axios.post('/api/logout', {}, {
                 headers: { Authorization: `Bearer ${token}` }
             })
             .then(() => {

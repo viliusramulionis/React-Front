@@ -4,8 +4,8 @@ import Header from '../../../components/header/Header'
 import Message from '../../../components/message/Message'
 import axios from 'axios'
 
-const Hotels = () => {
-    const [hotels, setHotels] = useState([])
+const Countries = () => {
+    const [countries, setCountries] = useState([])
     const [message, setMessage] = useState({
         text: '',
         status: ''
@@ -17,16 +17,14 @@ const Hotels = () => {
 
     useEffect(() => {
         setLoading(true)
-        axios.get('/api/hotels', {
+        axios.get('/api/countries', {
             headers: { Authorization: `Bearer ${token}` }
         })
         .then(resp => {
             setLoading(false)
-            setReload(false)
-            setHotels(resp.data.message)
+            setCountries(resp.data.message)
         })
         .catch(err => {
-            console.log(err)
             setLoading(false)
             if(err.response.data)
                 setMessage({text: err.response.data.message, status: 'danger'})
@@ -37,9 +35,8 @@ const Hotels = () => {
     }, [reload])
 
     const handleDelete = (id) => {
-        console.log(id)
         setLoading(true)
-        axios.delete('/api/hotels/' + id, {
+        axios.delete('/api/countries/' + id, {
             headers: { Authorization: `Bearer ${token}` }
         })
         .then((resp) => {
@@ -50,7 +47,6 @@ const Hotels = () => {
         })
         .catch(err => {
             setLoading(false)
-            console.log(err)
             if(err.response.data)
                 setMessage({text: err.response.data.message, status: 'danger'})
             else 
@@ -66,47 +62,40 @@ const Hotels = () => {
             <div className="pt-5 container">
                 <div className="row mb-5">
                     <div className="col-md-12 d-flex">
-                        <h2>Viešbučiai</h2> 
-                        <Link to="/admin/hotels/new" className="btn btn-success ml-auto">Naujas Viešbutis</Link>
+                        <h2>Šalys</h2> 
+                        <Link to="/admin/countries/new" className="btn btn-primary ml-auto">Nauja Šalis</Link>
                     </div>
-                </div>  
+                </div>
                 <Message value={message} />
-                {hotels.length > 0 ? (
+                {countries.length > 0 ? (
                     <table className="table bg-light table-bordered">
                         <thead>
                             <tr>
-                                <th>#</th>
-                                <th>Nuotrauka</th>
-                                <th>Pavadinimas</th>
-                                <th>Kaina</th>
-                                <th>Trukmė</th>
+                                <th>ID</th>
                                 <th>Šalis</th>
-                                <th></th>
+                                <th>Sezonas</th>
                             </tr>
                         </thead>
                         <tbody>
-                        {hotels.map(hotel => (
-                            <tr key={hotel.id}>
-                                <td className="text-center">{hotel.id}</td>
-                                <td className="hotelImage"><img src={hotel.photo} alt={hotel.name} /></td>
-                                <td>{hotel.name}</td>
-                                <td>{hotel.price}</td>
-                                <td>{hotel.travel_duration}</td>
-                                <td>{hotel.country}</td>
+                        {countries.map(country => (
+                            <tr key={country.id}>
+                                <td>{country.id}</td>
+                                <td>{country.name}</td>
+                                <td>{country.season}</td>
                                 <td>    
                                     <p className="text-end">
-                                        <button className="btn btn-danger me-2" onClick={() => handleDelete(hotel.id)}>Trinti</button>
-                                        <Link to={'/admin/hotels/edit/' + hotel.id} className="btn btn-primary">Redaguoti</Link>
+                                        <button className="btn btn-danger me-2" onClick={() => handleDelete(country.id)}>Trinti</button>
+                                        <Link to={'/admin/countries/edit/' + country.id} className="btn btn-primary">Redaguoti</Link>
                                     </p>
                                 </td>
                             </tr>
                         ))}
                         </tbody>
                     </table>
-                ) : <h5 className="mt-4">Nėra gauta jokių užsakymų</h5> }
+                ) : <h5 className="mt-4">Kol kas nėra pridėta šalių</h5> }  
             </div>
         </>
     )
 }
 
-export default Hotels
+export default Countries

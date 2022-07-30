@@ -8,10 +8,14 @@ import Home from '../pages/Home'
 import Login from '../pages/Login'
 import Logout from '../pages/Logout'
 import Register from '../pages/Register'
-import Orders from '../pages/admin/Orders'
+import Orders from '../pages/Orders'
+import OrdersAdmin from '../pages/admin/Orders'
 import Hotels from '../pages/admin/hotels/Hotels'
 import NewHotel from '../pages/admin/hotels/NewHotel'
-import Countries from '../pages/admin/Countries'
+import EditHotel from '../pages/admin/hotels/EditHotel'
+import Countries from '../pages/admin/countries/Countries'
+import NewCountry from '../pages/admin/countries/NewCountry'
+import EditCountry from '../pages/admin/countries/EditCountry'
 
 const Router = () => {
     const [user, setUser] = useState({})
@@ -37,13 +41,21 @@ const Router = () => {
                 {!user.loggedIn && <Route path="/register" element={<Register />} /> }
                 {user.loggedIn && user.role === '0' && (
                     <>
-                        <Route path="/admin/orders" element={<Orders />} /> 
+                        <Route path="/admin/orders" element={<OrdersAdmin />} /> 
                         <Route path="/admin/hotels" element={<Hotels />} /> 
                         <Route path="/admin/hotels/new" element={<NewHotel />} /> 
+                        <Route path="/admin/hotels/edit/:id" element={<EditHotel />} /> 
                         <Route path="/admin/countries" element={<Countries />} /> 
+                        <Route path="/admin/countries/new" element={<NewCountry />} /> 
+                        <Route path="/admin/countries/edit/:id" element={<EditCountry />} /> 
                     </>
                 )}
-                {user.loggedIn && <Route path="/logout" element={<Logout />} /> }
+                {user.loggedIn && (
+                    <>
+                        <Route path="/logout" element={<Logout />} /> 
+                        <Route path="/orders" element={<Orders />} /> 
+                    </>
+                )}
             </Routes>
         </BrowserRouter>
     )

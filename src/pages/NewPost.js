@@ -16,7 +16,7 @@ const NewPost = () => {
         e.preventDefault()
         const token = localStorage.getItem('token')
 
-        axios.post('http://localhost:8000/api/posts', postForm, {
+        axios.post('/api/posts', postForm, {
             headers: { Authorization: `Bearer ${token}` }
         })
         .then(resp => {

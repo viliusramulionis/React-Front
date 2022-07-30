@@ -90,3 +90,22 @@ label {
 #root {
   margin-bottom: 2rem;
 }
+
+.hotelImage img {
+  max-width: 100px;
+}
+
+.editHotelForm .previewImage {
+  max-width: 200px;
+  max-height: 200px;
+}
+
+.hotelBox .photo {
+  height: 200px;
+  overflow: hidden;
+}
+
+.hotelBox .photo img {
+  min-height: 100%;
+  width: 100%;
+}

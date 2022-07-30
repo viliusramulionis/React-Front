@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import axios from 'axios'
 import Header from '../components/header/Header'
+import Message from '../components/message/Message'
 import { useNavigate } from 'react-router-dom'
 
 const Login = () => {
@@ -8,7 +9,10 @@ const Login = () => {
         email: '',
         password: ''
     })
-    const [error, setError] = useState('')
+    const [message, setMessage] = useState({
+        text: '',
+        status: ''
+    })
     const [loading, setLoading] = useState(true)
 
     const navigate = useNavigate()
@@ -29,7 +33,7 @@ const Login = () => {
     const handleFormSubmit = (e) => {
         e.preventDefault()
         setLoading(true)
-        axios.post('http://localhost:8000/api/login', loginForm)
+        axios.post('/api/login', loginForm)
         .then(resp => {
             setLoading(false)
             if(resp.status === 200) {
@@ -41,9 +45,9 @@ const Login = () => {
         .catch(err => {
             setLoading(false)
             if(err.response.data)
-                setError(err.response.data.message)
+                setMessage({text: err.response.data.message, status: 'danger'})
             else 
-                setError('Serveris miręs')
+                setMessage({text: 'Serveris miręs', status: 'danger'})
         })
     }
  
@@ -54,9 +58,7 @@ const Login = () => {
             <main className="text-center loginForm">
                 <div className="form-signin w-100 m-auto">
                     <h1 className="h3 mb-3 fw-normal">Prisijungti</h1>
-                    {error && (
-                        <div className="alert alert-danger">{error}</div>
-                    )}
+                    <Message value={message} />
                     <form onSubmit={handleFormSubmit}>
                         <div className="form-floating">
                             <input type="email" className="form-control" name="email" onChange={handleFormChange} placeholder="name@example.com" />
